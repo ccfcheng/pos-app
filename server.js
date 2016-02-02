@@ -164,7 +164,9 @@ var convertJSON = function(worksheet) {
   return json_array;
 };
 
-console.log(convertJSON(worksheet));
+// console.log(convertJSON(worksheet));
+
+
 // console.log('Headers:', getHeaders(worksheet));
 // console.log('Rows:', splitRows(worksheet));
 // var cells = [];
