@@ -114,54 +114,18 @@ function readDropbox(path) {
     var workbook = XLSX.read(bstr, {type:'binary'});
     var worksheet = workbook.Sheets['Inventory'];
     /* DO SOMETHING WITH workbook HERE */
-    // console.log('Headers:', getHeaders(worksheet));
-    // console.log('Default Row:', makeRow(worksheet));
-    // console.log('JSON:', convertJSON(worksheet));
-    // var json_data = XLSX.utils.sheet_to_json(worksheet, {header: 1});
-    // console.log('JSON:', json_data);
-    console.log(XLSX.utils.sheet_to_csv(worksheet));
+
+    var json_data = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+    console.log(json_data);
+    console.log(makeRow(json_data));
+
   });
 }
 
-// /* set up XMLHttpRequest */
-// var url = '../assets/test_data.xlsx';
-// var oReq = new XMLHttpRequest();
-// oReq.open('GET', url, true);
-// oReq.responseType = 'arraybuffer';
-
-// oReq.onload = function(e) {
-//   var arraybuffer = oReq.response;
-
-//   /* convert data to binary string */
-//   var data = new Uint8Array(arraybuffer);
-//   var arr = new Array();
-//   for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
-//   var bstr = arr.join('');
-
-//   /* Call XLSX */
-//   var workbook = XLSX.read(bstr, {type:'binary'});
-
-//   /* DO SOMETHING WITH workbook HERE */
-//   console.log('Workbook:', workbook);
-// }
-
-// oReq.send();
-
-// Grabs headers from an excel worksheet
-function getHeaders(worksheet) {
-  var headers = [];
-  for (var cell in worksheet) {
-    if (cell.substr(1) === '2') {
-      headers.push(worksheet[cell].v);
-    }
-  }
-  return headers;
-}
-
 // Makes a default row object
-function makeRow(worksheet) {
+function makeRow(json) {
+  var headers = json[1];
   var obj = {};
-  var headers = getHeaders(worksheet);
   headers.forEach(function(header) {
     obj[header] = '';
   });
@@ -169,90 +133,15 @@ function makeRow(worksheet) {
 }
 
 // Converts worksheet into JSON
-function convertJSON(worksheet) {
-  var row = makeRow(worksheet);
-  var headers = getHeaders(worksheet);
-  var json_array = [];
-  for (var cell in worksheet) {
-    switch (cell[0]) {
-      case "A":
-        row[headers[0]] = worksheet[cell].v;
-        break;
-      case "B":
-        row[headers[1]] = worksheet[cell].v;
-        break;
-      case "C":
-        row[headers[2]] = worksheet[cell].v;
-        break;
-      case "D":
-        row[headers[3]] = worksheet[cell].v;
-        break;
-      case "E":
-        row[headers[4]] = worksheet[cell].v;
-        break;
-      case "F":
-        row[headers[5]] = worksheet[cell].v;
-        break;
-      case "G":
-        row[headers[6]] = worksheet[cell].v;
-        break;
-      case "H":
-        row[headers[7]] = worksheet[cell].v;
-        break;
-      case "I":
-        row[headers[8]] = worksheet[cell].v;
-        break;
-      case "J":
-        row[headers[9]] = worksheet[cell].v;
-        break;
-      case "K":
-        row[headers[10]] = worksheet[cell].v;
-        break;
-      case "L":
-        row[headers[11]] = worksheet[cell].v;
-        break;
-      case "M":
-        row[headers[12]] = worksheet[cell].v;
-        break;
-      case "N":
-        row[headers[13]] = worksheet[cell].v;
-        break;
-      case "O":
-        row[headers[14]] = worksheet[cell].v;
-        break;
-      case "P":
-        row[headers[15]] = worksheet[cell].v;
-        break;
-      case "Q":
-        row[headers[16]] = worksheet[cell].v;
-        break;
-      case "R":
-        row[headers[17]] = worksheet[cell].v;
-        break;
-      case "S":
-        row[headers[18]] = worksheet[cell].v;
-        break;
-      case "T":
-        row[headers[19]] = worksheet[cell].v;
-        break;
-      case "U":
-        row[headers[20]] = worksheet[cell].v;
-        break;
-      case "V":
-        row[headers[21]] = worksheet[cell].v;
-        break;
-      case "W":
-        console.log('Finished row:', cell.substr(1));
-        row[headers[22]] = worksheet[cell].v;
-        console.log('Row to push:', row);
-        json_array.push(row);
-        row = makeRow(worksheet);
-        break;
-      default:
-        break;
+function convertJSON(json) {
+  var defaultRow = makeRow(json);
+  var results = [];
+  json.forEach(function(row, index) {
+    // start on row below headers
+    if (index > 1) {
+
     }
-  }
-  return json_array;
+  });
 }
 
 readDropbox('/Dropbox - Company Documents (1)/POS INVENTORY MASTER.xls');
