@@ -96,8 +96,10 @@ function dropboxDir(path) {
   });
 }
 
+var sales_data;
+
 function readDropbox(path) {
-  console.log('Reading file...');
+  console.log('Beginning import...');
   client.readFile(path, { arrayBuffer: true }, function(error, data) {
     if (error) {
       return showError(error);  // Something went wrong.
@@ -114,11 +116,7 @@ function readDropbox(path) {
     var workbook = XLSX.read(bstr, {type:'binary'});
     var worksheet = workbook.Sheets['Inventory'];
     /* DO SOMETHING WITH workbook HERE */
-
-    var json_data = XLSX.utils.sheet_to_json(worksheet, {header: 1});
-    console.log(json_data);
-    console.log(makeRow(json_data));
-
+    sales_data = sheetToJSON(worksheet);
   });
 }
 
@@ -133,15 +131,39 @@ function makeRow(json) {
 }
 
 // Converts worksheet into JSON
-function convertJSON(json) {
+function sheetToJSON(worksheet) {
+  var json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
   var defaultRow = makeRow(json);
+  var newRow = makeRow(json);
+  var headers = json[1];
   var results = [];
-  json.forEach(function(row, index) {
-    // start on row below headers
-    if (index > 1) {
-
+  // start on row below headers
+  // for each item starting from third item in json_data, loop through each array
+  // from index 0 to index 22
+  // if the item exists, store it 
+  for (var i = 2; i < json.length; i++) {
+    for (var index = 0; index < 23; index++) {
+      if (json[i][index] !== undefined) {
+        newRow[headers[index]] = json[i][index];
+      }
     }
-  });
+    results.push(newRow);
+    newRow = Object.assign({}, defaultRow);
+  }
+  console.log('Finished import:');
+  return results;  
 }
 
+// findItemNumber(itemNumStr) returns array with matching objects
+function findItemNumber(str) {
+  return sales_data.filter(function(item) {
+    return item['Item Number'] === str;
+  });
+}
+// findItemBy(category, criteria) returns array with matching objects
+function findItemBy(category, criteria) {
+  return sales_data.filter(function(item) {
+    return item[category] === criteria;
+  });
+}
 readDropbox('/Dropbox - Company Documents (1)/POS INVENTORY MASTER.xls');
