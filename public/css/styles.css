@@ -1,0 +1,23 @@
+body {
+  font-family: Monaco;
+  font-weight: 300;
+}
+
+.pure-button {
+  font-family: Monaco;
+  font-weight: 300;
+}
+
+.header {
+  background-color: #09f;
+  text-align: center;
+  text-shadow: 2px 2px 2px #000;
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: 400;
+  padding: 0;
+}
+
+.header p {
+  font-family: Monaco;
+}
