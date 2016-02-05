@@ -64,7 +64,7 @@ function sheetToJSON(worksheet) {
   // start on row below headers
   // for each item starting from third item in json_data, loop through each array
   // from index 0 to index 22
-  // if the item exists, store it 
+  // if the item exists, store it
   for (var i = 2; i < json.length; i++) {
     for (var index = 0; index < 23; index++) {
       if (json[i][index] !== undefined) {
@@ -75,7 +75,7 @@ function sheetToJSON(worksheet) {
     newRow = Object.assign({}, defaultRow);
   }
   console.log('Finished import:');
-  return results;  
+  return results;
 }
 
 // findItemNumber(itemNumStr) returns array with matching objects
@@ -93,7 +93,7 @@ function sheetToJSON(worksheet) {
 
 var sales_data;
 
-readDropbox('/Dropbox - Company Documents (1)/POS INVENTORY MASTER.xls');
+readDropbox('/Dropbox - Company Documents/POS INVENTORY MASTER.xls');
 
 new Vue({
   el: '#app',
