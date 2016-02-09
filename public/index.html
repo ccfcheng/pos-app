@@ -2,14 +2,14 @@
 <html>
 
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="css/pure-min.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="apple-touch-icon" sizes="120x120" href="assets/icon_120x120.png">
     <script src="js/vue.js"></script>
-    <script src="js/xlsx.js"></script>
-    <script src="js/dropbox.js"></script>
+    <script src="js/xlsx.core.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dropbox.js/0.10.2/dropbox.min.js"></script>
     <title>Costless Mobile PoS App</title>
   </head>
 
@@ -20,20 +20,19 @@
         <p>Costless Mobile POS</p>
       </div>
 
-      <div class="pure-u-1 pure-u-sm-1-2">
+      <div class="pure-u-1">
         <form class="pure-form">
           <fieldset>
-            <!--<input type="text" placeholder="Enter item number:">-->
             <label for="itemNumber">Enter Item Number:</label>
             <input type="text" id="itemNumber" v-model="input_number">
-            <button v-on:click="findByNumber" class="pure-button">Search by Item Number</button>
+            <button v-on:click="findByNumber" class="pure-button">Search</button>
           </fieldset>
         </form>
       </div>
 
-      <div class="pure-u-1 pure-u-sm-1-2">
+      <div class="pure-u-1">
         <ul>
-          <li v-for="item in filteredByNumber">
+          <li v-for="item in filtered_number">
             <h3>Item Name: {{ item['Item Name'] }}</h3>
             <p>Item #: {{ item['Item Number'] }}</p>
             <p>Description: {{ item['Item Description'] }}</p>
@@ -75,7 +74,6 @@
 
     </div>
 
-    <!--<script src="js/index.js"></script>-->
     <script src="js/dbConnect.js"></script>
   </body>
 
